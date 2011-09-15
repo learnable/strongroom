@@ -1,0 +1,2 @@
+# Gemfile.lock should be versioned in applications, not libraries.
+Gemfile.lock
