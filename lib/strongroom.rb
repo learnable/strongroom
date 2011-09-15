@@ -1,2 +1,4 @@
-module Strongroom
+require "strongroom/enigma"
+
+class Strongroom
 end
