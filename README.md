@@ -12,6 +12,14 @@ Strongroom combines RSA public-key encryption and AES symmetric-key encryption t
 Ruby's OpenSSL bindings do all the heavy lifting; Strongroom acts as simple glue-code and as a central point for testing, documentation, collaboration and peer review.
 
 
+Status
+------
+
+[![http://travis-ci.org/pda/strongroom.png](http://travis-ci.org/pda/strongroom.png)](http://travis-ci.org/#!/pda/strongroom)
+
+Implementation is functionally complete. Documentation is work in progress.
+
+
 Reading List
 ------------
 
