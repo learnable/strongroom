@@ -12,6 +12,22 @@ Strongroom combines RSA public-key encryption and AES symmetric-key encryption t
 Ruby's OpenSSL bindings do all the heavy lifting; Strongroom acts as simple glue-code and as a central point for testing, documentation, collaboration and peer review.
 
 
+Usage
+-----
+
+```ruby
+# Encrypt with public key:
+public_key = OpenSSL::PKey::RSA.new(File.read("public_key"))
+enigma = Strongroom.new.encryptor(public_key).encrypt("secret message")
+# => #<Strongroom::Enigma:0x007fb7dc80e878>
+
+# Decrypt with private key:
+private_key = OpenSSL::PKey::RSA.new(File.read("private_key"))
+Strongroom.new.decryptor(private_key).decrypt(enigma)
+# => "secret message"
+```
+
+
 Status
 ------
 
