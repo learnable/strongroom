@@ -6,10 +6,16 @@ class Strongroom
     attr_reader :rsa_key
 
     def has_rsa_key key
-      @rsa_key = key
+      @rsa_key = resolve_rsa_key key
     end
 
-    attr_reader :rsa_key
+    def resolve_rsa_key key
+      if key.is_a? String
+        OpenSSL::PKey::RSA.new(File.read(key))
+      else
+        key
+      end
+    end
 
   end
 end

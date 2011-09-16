@@ -17,13 +17,11 @@ Usage
 
 ```ruby
 # Encrypt with public key:
-public_key = OpenSSL::PKey::RSA.new(File.read("public_key"))
-enigma = Strongroom.new.encryptor(public_key).encrypt("secret message")
+enigma = Strongroom.new.encryptor("path/to/public_key").encrypt("secret message")
 # => #<Strongroom::Enigma:0x007fb7dc80e878>
 
 # Decrypt with private key:
-private_key = OpenSSL::PKey::RSA.new(File.read("private_key"))
-Strongroom.new.decryptor(private_key).decrypt(enigma)
+Strongroom.new.decryptor("path/to/private").decrypt(enigma)
 # => "secret message"
 ```
 
