@@ -22,7 +22,7 @@ class Strongroom
   private
 
   def cipher
-    @cipher ||= OpenSSL::Cipher.new("AES-128-CFB")
+    @cipher || OpenSSL::Cipher.new("AES-128-CFB")
   end
 
 end
