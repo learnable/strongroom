@@ -1,9 +1,11 @@
 class Strongroom
   class Encryptor
 
+    include HasRsaKey
+
     def initialize cipher, public_key
-      @public_key = public_key
       @cipher = cipher
+      has_rsa_key public_key
     end
 
     def encrypt input
@@ -16,11 +18,11 @@ class Strongroom
 
       Enigma.new \
         ciphertext: cipher.update(input) << cipher.final,
-        encrypted_key: public_key.public_encrypt(key),
+        encrypted_key: rsa_key.public_encrypt(key),
         iv: iv
     end
 
     private
-    attr_reader :cipher, :public_key
+    attr_reader :cipher
   end
 end
