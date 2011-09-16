@@ -1,5 +1,6 @@
 require "openssl"
 
+require_relative "strongroom/version"
 require_relative "strongroom/enigma"
 require_relative "strongroom/encryptor"
 require_relative "strongroom/decryptor"
