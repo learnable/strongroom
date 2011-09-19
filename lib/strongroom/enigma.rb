@@ -15,5 +15,21 @@ class Strongroom
         keys.map { |key| "#{key}: #{send(key).length} bytes" }.join(", ")
     end
 
+    def to_hash
+      {
+        "ciphertext" => ciphertext,
+        "encrypted_key" => encrypted_key,
+        "iv" => iv
+      }
+    end
+
+    def self.from_hash hash
+      new(
+        ciphertext: hash["ciphertext"],
+        encrypted_key: hash["encrypted_key"],
+        iv: hash["iv"]
+      )
+    end
+
   end
 end

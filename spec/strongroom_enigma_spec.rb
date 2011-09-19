@@ -22,4 +22,29 @@ describe Strongroom::Enigma do
     end
   end
 
+  describe "#to_hash" do
+    it "returns hash with string keys for easy serialization" do
+      enigma.to_hash.tap do |h|
+        h["ciphertext"].must_equal "ct"
+        h["encrypted_key"].must_equal "ek"
+        h["iv"].must_equal "iv"
+      end
+    end
+  end
+
+  describe ".from_hash" do
+    it "accepts hash with string keys for easy deserialization" do
+      hash = {
+        "ciphertext" => "test_ct",
+        "encrypted_key" => "test_ek",
+        "iv" => "test_iv"
+      }
+      Strongroom::Enigma.from_hash(hash).tap do |e|
+        e.ciphertext.must_equal "test_ct"
+        e.encrypted_key.must_equal "test_ek"
+        e.iv.must_equal "test_iv"
+      end
+    end
+  end
+
 end
