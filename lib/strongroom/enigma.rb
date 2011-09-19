@@ -1,3 +1,5 @@
+require "base64"
+
 module Strongroom
   class Enigma
 
@@ -19,18 +21,18 @@ module Strongroom
     def to_hash
       {
         "cipher" => cipher,
-        "ciphertext" => ciphertext,
-        "encrypted_key" => encrypted_key,
-        "iv" => iv
+        "ciphertext" => Base64.encode64(ciphertext),
+        "encrypted_key" => Base64.encode64(encrypted_key),
+        "iv" => Base64.encode64(iv)
       }
     end
 
     def self.from_hash hash
       new(
         cipher: hash["cipher"],
-        ciphertext: hash["ciphertext"],
-        encrypted_key: hash["encrypted_key"],
-        iv: hash["iv"]
+        ciphertext: Base64.decode64(hash["ciphertext"]),
+        encrypted_key: Base64.decode64(hash["encrypted_key"]),
+        iv: Base64.decode64(hash["iv"])
       )
     end
 
