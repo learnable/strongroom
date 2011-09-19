@@ -1,10 +1,10 @@
-class Strongroom
+module Strongroom
   class Encryptor
 
     include HasRsaKey
 
-    def initialize cipher, public_key
-      @cipher = cipher
+    def initialize public_key, cipher = nil
+      @cipher = cipher if cipher
       has_rsa_key public_key
     end
 
@@ -17,12 +17,17 @@ class Strongroom
       cipher.iv = iv
 
       Enigma.new \
+        cipher: cipher.name,
         ciphertext: cipher.update(input) << cipher.final,
         encrypted_key: rsa_key.public_encrypt(key),
         iv: iv
     end
 
     private
-    attr_reader :cipher
+
+    def cipher
+      @cipher ||= OpenSSL::Cipher.new("AES-128-CFB")
+    end
+
   end
 end

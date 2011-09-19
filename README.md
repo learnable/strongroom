@@ -17,11 +17,11 @@ Usage
 
 ```ruby
 # Encrypt with public key:
-enigma = Strongroom.new.encryptor("path/to/public_key").encrypt("secret message")
-# => #<Strongroom::Enigma:0x007fb7dc80e878>
+enigma = Strongroom::Encryptor.new("spec/fixtures/public_key").encrypt("secret message")
+# => #<Strongroom::Enigma AES-128-CFB ciphertext: 14 bytes, encrypted_key: 256 bytes, iv: 16 bytes>
 
 # Decrypt with private key:
-Strongroom.new.decryptor("path/to/private").decrypt(enigma)
+Strongroom::Decryptor.new("spec/fixtures/private_key").decrypt(enigma)
 # => "secret message"
 ```
 

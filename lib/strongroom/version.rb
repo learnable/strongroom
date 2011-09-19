@@ -1,3 +1,3 @@
-class Strongroom
+module Strongroom
   VERSION = "0.0.1"
 end

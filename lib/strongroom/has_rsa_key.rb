@@ -1,4 +1,4 @@
-class Strongroom
+module Strongroom
   module HasRsaKey
 
     private

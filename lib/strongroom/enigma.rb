@@ -1,22 +1,24 @@
-class Strongroom
+module Strongroom
   class Enigma
 
     def initialize parameters
+      @cipher = parameters.fetch :cipher
       @ciphertext = parameters.fetch :ciphertext
       @encrypted_key = parameters.fetch :encrypted_key
       @iv = parameters.fetch :iv
     end
 
-    attr_accessor :ciphertext, :encrypted_key, :iv
+    attr_accessor :cipher, :ciphertext, :encrypted_key, :iv
 
     def to_s
       keys = [ :ciphertext, :encrypted_key, :iv ]
-      "#<Strongroom::Enigma %s>" %
+      "#<Strongroom::Enigma #{cipher} %s>" %
         keys.map { |key| "#{key}: #{send(key).length} bytes" }.join(", ")
     end
 
     def to_hash
       {
+        "cipher" => cipher,
         "ciphertext" => ciphertext,
         "encrypted_key" => encrypted_key,
         "iv" => iv
@@ -25,6 +27,7 @@ class Strongroom
 
     def self.from_hash hash
       new(
+        cipher: hash["cipher"],
         ciphertext: hash["ciphertext"],
         encrypted_key: hash["encrypted_key"],
         iv: hash["iv"]

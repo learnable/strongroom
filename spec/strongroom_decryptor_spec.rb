@@ -18,15 +18,18 @@ describe Strongroom::Decryptor do
       e.expect :encrypted_key, "ekey"
       e.expect :iv, "iv"
     end
+    @cipher_locator = ::MiniTest::Mock.new.tap do |cl|
+      cl.expect :for, @cipher, [ @enigma ]
+    end
   end
 
   it "calls OpenSSL methods" do
-    Strongroom::Decryptor.new(@cipher, @key).decrypt(@enigma)
+    Strongroom::Decryptor.new(@key, @cipher_locator).decrypt(@enigma)
     [ @cipher, @key, @enigma ].each &:verify
   end
 
   it "returns correct plaintext" do
-    Strongroom::Decryptor.new(@cipher, @key).decrypt(@enigma).tap do |output|
+    Strongroom::Decryptor.new(@key, @cipher_locator).decrypt(@enigma).tap do |output|
       output.must_equal "original input"
     end
   end

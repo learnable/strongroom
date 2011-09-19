@@ -20,10 +20,10 @@ describe Strongroom do
           @input.length.must_equal length
         end
 
-        it "works" do
+        it "round-trips with real Cipher and RSA keys" do
           key = key_pair
-          enigma = Strongroom.new.encryptor(key.public).encrypt(@input)
-          output = Strongroom.new.decryptor(key.private).decrypt(enigma)
+          enigma = Strongroom::Encryptor.new(key.public).encrypt(@input)
+          output = Strongroom::Decryptor.new(key.private).decrypt(enigma)
           output.must_equal @input
         end
       end
