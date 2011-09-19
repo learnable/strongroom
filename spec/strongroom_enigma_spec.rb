@@ -71,4 +71,29 @@ describe Strongroom::Enigma do
     end
   end
 
+  describe "#serialize" do
+    def s; enigma.serialize; end
+    it "returns a String" do
+      s.must_be_kind_of String
+    end
+    it "is not empty" do
+      s.wont_be_empty
+    end
+    it "has is valid US-ASCII" do
+      s.encoding.name.must_equal "US-ASCII"
+      s.valid_encoding?.must_equal true
+    end
+  end
+
+  describe ".deserialize" do
+    it "correctly deserializes output from #serialize" do
+      Strongroom::Enigma.deserialize(enigma.serialize).tap do |e|
+        e.cipher.must_equal "AES-128-TEST"
+        e.ciphertext.must_equal binary("ct")
+        e.encrypted_key.must_equal binary("ek")
+        e.iv.must_equal binary("iv")
+      end
+    end
+  end
+
 end

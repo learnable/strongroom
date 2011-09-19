@@ -20,6 +20,14 @@ Usage
 enigma = Strongroom::Encryptor.new("spec/fixtures/public_key").encrypt("secret message")
 # => #<Strongroom::Enigma AES-128-CFB ciphertext: 14 bytes, encrypted_key: 256 bytes, iv: 16 bytes>
 
+# Store enigma as US-ASCII YAML text:
+s = enigma.serialize
+=> "--- \ncipher: AES-128-CFB\nciphertext: |\n  55djlRLf[...]p8w==\n\n"
+
+# Retrieve enigma:
+enigma = Strongroom::Enigma.deserialize(s)
+# => #<Strongroom::Enigma AES-128-CFB ciphertext: 14 bytes, encrypted_key: 256 bytes, iv: 16 bytes>
+
 # Decrypt with private key:
 Strongroom::Decryptor.new("spec/fixtures/private_key").decrypt(enigma)
 # => "secret message"

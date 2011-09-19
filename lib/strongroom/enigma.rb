@@ -36,5 +36,13 @@ module Strongroom
       )
     end
 
+    def serialize
+      to_hash.to_yaml.encode!("US-ASCII")
+    end
+
+    def self.deserialize input
+      from_hash YAML.load(input)
+    end
+
   end
 end
