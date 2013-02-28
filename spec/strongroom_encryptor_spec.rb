@@ -3,19 +3,19 @@ require_relative "spec_helper"
 describe Strongroom::Encryptor do
 
   before do
-    @cipher = ::MiniTest::Mock.new.tap do |c|
-      c.expect :name, "AES-128-TEST"
-      c.expect :encrypt, nil
-      c.expect :random_key, "rkey"
-      c.expect :key=, "rkey", [ "rkey" ]
-      c.expect :random_iv, "riv"
-      c.expect :iv=, "riv", [ "riv" ]
-      c.expect :update, "cipherte", [ "input" ]
-      c.expect :final, "xt=="
-    end
-    @key = ::MiniTest::Mock.new.tap do |k|
-      k.expect :public_encrypt, "encryptedkey", [ "rkey" ]
-    end
+    @cipher = ::MiniTest::Mock.new
+    @cipher.expect :name, "AES-128-TEST"
+    @cipher.expect :encrypt, nil
+    @cipher.expect :random_key, "rkey"
+    @cipher.expect :key=, "rkey", [ "rkey" ]
+    @cipher.expect :random_iv, "riv"
+    @cipher.expect :iv=, "riv", [ "riv" ]
+    @cipher.expect :update, "cipherte", [ "input" ]
+    @cipher.expect :final, "xt=="
+
+    @key = ::MiniTest::Mock.new
+    def @key.is_a?(type); false; end
+    @key.expect :public_encrypt, "encryptedkey", [ "rkey" ]
   end
 
   it "calls OpenSSL methods" do
