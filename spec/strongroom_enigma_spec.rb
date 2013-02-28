@@ -2,9 +2,11 @@ require_relative "spec_helper"
 
 describe Strongroom::Enigma do
 
-  # binary guaranteed to be invalid as US-ASCII or UTF-8
+  # Generates a string guaranteed to be invalid as US-ASCII or UTF-8.
+  # Encoding set to "ASCII-8BIT" as this is Ruby's "BINARY" type:
+  #   Encoding.aliases["BINARY"] # => "ASCII-8BIT"
   def binary input
-    "\xFF" << input
+    ("\xFF" << input).force_encoding("ASCII-8BIT")
   end
 
   # input has non-valid-character-encoding byte added, then base64 encoded
@@ -41,12 +43,12 @@ describe Strongroom::Enigma do
       h["encrypted_key"].must_equal bin64("ek")
       h["iv"].must_equal bin64("iv")
     end
-    it "has US-ASCII keys and values" do
+    it "has ASCII-8BIT keys and values" do
       h = enigma.to_hash
       h.each do |key, value|
-        key.encoding.name.must_equal "US-ASCII"
+        key.encoding.name.must_equal "ASCII-8BIT"
         key.valid_encoding?.must_equal true
-        value.encoding.name.must_equal "US-ASCII"
+        value.encoding.name.must_equal "ASCII-8BIT"
         value.valid_encoding?.must_equal true
       end
     end
