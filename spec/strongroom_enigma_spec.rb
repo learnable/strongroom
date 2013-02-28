@@ -78,8 +78,8 @@ describe Strongroom::Enigma do
     it "is not empty" do
       s.wont_be_empty
     end
-    it "is valid US-ASCII" do
-      s.encoding.name.must_equal "US-ASCII"
+    it "is valid ASCII-8BIT" do
+      s.encoding.name.must_equal "ASCII-8BIT"
       s.valid_encoding?.must_equal true
     end
   end
