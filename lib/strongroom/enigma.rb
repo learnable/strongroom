@@ -1,7 +1,12 @@
 require "base64"
+require "yaml"
 
 module Strongroom
   class Enigma
+
+    # "ASCII-8BIT" is Ruby's "BINARY" type:
+    #   Encoding.aliases["BINARY"] # => "ASCII-8BIT"
+    BINARY = "ASCII-8BIT"
 
     def initialize parameters
       @cipher = parameters.fetch :cipher
@@ -19,12 +24,11 @@ module Strongroom
     end
 
     def to_hash
-      {
-        "cipher" => cipher,
-        "ciphertext" => Base64.encode64(ciphertext),
-        "encrypted_key" => Base64.encode64(encrypted_key),
-        "iv" => Base64.encode64(iv)
-      }
+      Hash[
+        to_hash_with_default_encoding.map do |key, value|
+          [key.dup.force_encoding(BINARY), value.force_encoding(BINARY)]
+        end
+      ]
     end
 
     def self.from_hash hash
@@ -37,11 +41,22 @@ module Strongroom
     end
 
     def serialize
-      to_hash.to_yaml.encode!("US-ASCII")
+      YAML.dump(to_hash).force_encoding(BINARY)
     end
 
     def self.deserialize input
       from_hash YAML.load(input)
+    end
+
+    private
+
+    def to_hash_with_default_encoding
+      {
+        "cipher" => cipher,
+        "ciphertext" => Base64.encode64(ciphertext),
+        "encrypted_key" => Base64.encode64(encrypted_key),
+        "iv" => Base64.encode64(iv)
+      }
     end
 
   end

@@ -10,7 +10,7 @@ describe Strongroom::HasRsaKey do
   end
 
   it "passes through non-String objects" do
-    key = MiniTest::Mock.new
+    key = Object.new
     klass.new(key).send(:rsa_key).must_equal key
   end
 
